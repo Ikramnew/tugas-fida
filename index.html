@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Informatika Kelas IX - HTML, CSS & JavaScript</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. VARIABEL & RESET DASAR (CSS3)
+           Tema Utama: Biru Navy Profesional, Biru Terang, dan Putih Bersih
+           ========================================================================== */
+        :root {
+            --primary-color: #1e3a8a;       /* Deep Navy Utama */
+            --primary-hover: #1e40af;       /* Navy Hover */
+            --primary-light: #eff6ff;       /* Soft Blue Background */
+            --accent-cyan: #0284c7;         /* Aksen Biru Cerah */
+            --accent-cyan-hover: #0369a1;   /* Cyan Hover */
+            --bg-body: #f8fafc;             /* Background body */
+            --bg-card: #ffffff;             /* Background Kartu */
+            --text-main: #0f172a;           /* Warna Teks Utama */
+            --text-muted: #64748b;          /* Warna Teks Muted */
+            --border-color: #e2e8f0;        /* Warna Border */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(30, 58, 138, 0.08);
+            --shadow-lg: 0 10px 25px rgba(30, 58, 138, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================================================
+           2. HEADER ATAS
+           ========================================================================== */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--accent-cyan);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-brand i {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            color: #bae6fd;
+        }
+
+        .toggle-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* ==========================================================================
+           3. LAYOUT UTAMA (Sidebar + Main Content)
+           ========================================================================== */
+        .app-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        /* Navbar Vertikal (Sidebar) */
+        sidebar {
+            width: 280px;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            transition: var(--transition);
+            z-index: 90;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item.active i {
+            color: var(--accent-cyan);
+        }
+
+        /* Area Konten Utama */
+        main {
+            flex: 1;
+            padding: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Konten */
+        .section-header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            background: var(--primary-light);
+            padding: 0.6rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           4. KARTU & DESAIN ELEMEN
+           ========================================================================== */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .badge-cyan {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 0.35rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Tombol Utama */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: #ffffff;
+            padding: 0.8rem 1.6rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3);
+            background: linear-gradient(135deg, var(--primary-hover), var(--primary-color));
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan-hover));
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .btn-cyan:hover {
+            background: linear-gradient(135deg, var(--accent-cyan-hover), var(--accent-cyan));
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+        }
+
+        /* ==========================================================================
+           5. HALAMAN SPESIFIK & ISI
+           ========================================================================== */
+
+        /* A. Beranda */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.6;
+        }
+
+        .hero-illustration {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-illustration svg {
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+            filter: drop-shadow(0 10px 15px rgba(30,58,138,0.15));
+        }
+
+        /* B. Profil Pengembang */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .profile-img-container {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-cyan);
+            padding: 4px;
+            background: #ffffff;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-info h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .profile-info .status {
+            color: var(--accent-cyan-hover);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .profile-details {
+            width: 100%;
+            text-align: left;
+            background-color: var(--primary-light);
+            padding: 1.2rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+        }
+
+        .profile-details p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-details p strong {
+            color: var(--primary-color);
+        }
+
+        /* C. Tujuan Pembelajaran */
+        .objective-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: var(--bg-card);
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--accent-cyan);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .objective-item:hover {
+            transform: translateX(6px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .objective-icon {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* D, E, F. Halaman Materi */
+        .code-box {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 1.2rem;
+            border-radius: var(--radius-sm);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .code-tag { color: #f43f5e; }
+        .code-attr { color: #38bdf8; }
+        .code-val { color: #facc15; }
+        .code-comm { color: #64748b; font-style: italic; }
+
+        .explain-list {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .explain-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* G. Halaman Contoh Kode Interactive Playground */
+        .playground-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .editor-box {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .editor-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 0.75rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 220px;
+            background-color: #020617;
+            color: #38bdf8;
+            border: none;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        .preview-box {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            min-height: 180px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* H. Latihan Soal */
+        .practice-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .practice-options {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+
+        .practice-options li {
+            padding: 0.6rem 1rem;
+            background: var(--primary-light);
+            margin-bottom: 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+        }
+
+        /* I. Evaluasi Kuis Interaktif */
+        .quiz-card {
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option input[type="radio"] {
+            accent-color: var(--primary-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .quiz-feedback {
+            margin-top: 0.75rem;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback-correct {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .feedback-wrong {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-light), #ffffff);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--accent-cyan);
+            margin-top: 2rem;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
+        /* J. Referensi */
+        .ref-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            transition: var(--transition);
+            margin-bottom: 1rem;
+        }
+
+        .ref-link:hover {
+            border-color: var(--accent-cyan);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .ref-link i {
+            color: var(--accent-cyan);
+        }
+
+        /* ==========================================================================
+           6. FOOTER
+           ========================================================================== */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 3px solid var(--accent-cyan);
+            margin-top: auto;
+        }
+
+        footer strong {
+            color: #ffffff;
+        }
+
+        /* Tombol Kembali ke Atas (Back to Top) */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan-hover));
+            color: #ffffff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 99;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ==========================================================================
+           7. RESPONSIVE DESIGN (HP, Tablet, Desktop)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toggle-menu-btn {
+                display: block;
+            }
+
+            sidebar {
+                position: fixed;
+                top: 73px;
+                left: -280px;
+                height: calc(100vh - 73px);
+                box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            }
+
+            sidebar.open {
+                left: 0;
+            }
+
+            main {
+                padding: 1.5rem 1rem;
+            }
+
+            .header-title h1 {
+                font-size: 1.05rem;
+            }
+
+            .header-title p {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-brand">
+            <i class="fa-solid fa-code"></i>
+            <div class="header-title">
+                <h1>MEDIA PEMBELAJARAN INFORMATIKA</h1>
+                <p>Kelas IX • Dasar HTML, CSS & JavaScript</p>
+            </div>
+        </div>
+        <button class="toggle-menu-btn" id="toggleSidebar" aria-label="Buka Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- ==================== APP CONTAINER ==================== -->
+    <div class="app-container">
+
+        <!-- ==================== SIDEBAR NAVBAR ==================== -->
+        <sidebar id="sidebar">
+            <a class="nav-item active" onclick="switchTab('beranda', this)">
+                <i class="fa-solid fa-house"></i> Beranda
+            </a>
+            <a class="nav-item" onclick="switchTab('profil', this)">
+                <i class="fa-solid fa-user-graduate"></i> Profil Pengembang
+            </a>
+            <a class="nav-item" onclick="switchTab('tujuan', this)">
+                <i class="fa-solid fa-bullseye"></i> Tujuan Pembelajaran
+            </a>
+            <a class="nav-item" onclick="switchTab('html', this)">
+                <i class="fa-brands fa-html5"></i> Materi HTML
+            </a>
+            <a class="nav-item" onclick="switchTab('css', this)">
+                <i class="fa-brands fa-css3-alt"></i> Materi CSS
+            </a>
+            <a class="nav-item" onclick="switchTab('js', this)">
+                <i class="fa-brands fa-js"></i> Materi JavaScript
+            </a>
+            <a class="nav-item" onclick="switchTab('contoh', this)">
+                <i class="fa-solid fa-laptop-code"></i> Contoh Kode
+            </a>
+            <a class="nav-item" onclick="switchTab('latihan', this)">
+                <i class="fa-solid fa-pen-to-square"></i> Latihan Soal
+            </a>
+            <a class="nav-item" onclick="switchTab('evaluasi', this)">
+                <i class="fa-solid fa-square-check"></i> Evaluasi Kuis
+            </a>
+            <a class="nav-item" onclick="switchTab('referensi', this)">
+                <i class="fa-solid fa-book-bookmark"></i> Referensi
+            </a>
+        </sidebar>
+
+        <!-- ==================== MAIN CONTENT AREA ==================== -->
+        <main>
+
+            <!-- 1. BERANDA -->
+            <section id="beranda" class="content-section active">
+                <div class="hero">
+                    <div class="hero-text">
+                        <span class="badge-cyan"><i class="fa-solid fa-star"></i> Modul Interaktif Kelas IX</span>
+                        <h2>Selamat Datang di Media Pembelajaran Informatika!</h2>
+                        <p>Mari jelajahi dunia pemrograman web secara mudah, menyenangkan, dan terstruktur. Pelajari dasar-dasar pondasi web mulai dari struktur (HTML), tampilan (CSS), hingga interaksi (JavaScript).</p>
+                        <button class="btn btn-cyan" onclick="switchTabById('tujuan')">
+                            Mulai Belajar <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="hero-illustration">
+                        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="40" y="40" width="320" height="200" rx="12" fill="#1e3a8a" opacity="0.1"/>
+                            <rect x="50" y="50" width="300" height="180" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="3"/>
+                            <path d="M50 50 H350 V80 H50 Z" fill="#1e3a8a"/>
+                            <circle cx="70" cy="65" r="5" fill="#f43f5e"/>
+                            <circle cx="85" cy="65" r="5" fill="#facc15"/>
+                            <circle cx="100" cy="65" r="5" fill="#10b981"/>
+                            <rect x="80" y="100" width="120" height="12" rx="4" fill="#0284c7"/>
+                            <rect x="80" y="125" width="180" height="10" rx="4" fill="#e2e8f0"/>
+                            <rect x="80" y="145" width="140" height="10" rx="4" fill="#e2e8f0"/>
+                            <rect x="80" y="170" width="90" height="25" rx="6" fill="#1e3a8a"/>
+                            <circle cx="280" cy="140" r="35" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+                            <path d="M268 140 L276 148 L292 132" stroke="#0284c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <i class="fa-brands fa-html5" style="font-size: 2.5rem; color: #e34f26; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">HTML5</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Bahasa standar pemformatan yang digunakan untuk membuat dan menyusun struktur halaman web.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-brands fa-css3-alt" style="font-size: 2.5rem; color: #1572b6; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">CSS3</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Bahasa desain yang mengatur tampilan, tata letak, warna, dan estetika halaman web.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-brands fa-js" style="font-size: 2.5rem; color: #f7df1e; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">JavaScript</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Bahasa pemrograman yang memberikan interaktivitas dan keharmonisan logika dinamis pada web.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. PROFIL PENGEMBANG -->
+            <section id="profil" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-id-card"></i>
+                    <h2>Profil Pengembang</h2>
+                </div>
+                <div class="card profile-card">
+                    <div class="profile-img-container">
+                        <img src="/foto.jpeg" alt="Foto Profil Pengembang">
+                    </div>
+                    <div class="profile-info">
+                        <h3>Rafidatul Aliya</h3>
+                        <p class="status"><i class="fa-solid fa-graduation-cap"></i> Mahasiswa Pengembang</p>
+                        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+                            Selamat datang di media pembelajaran interaktif ini. Website ini dikembangkan sebagai karya tugas UTS mata kuliah <strong>Web Pembelajaran</strong> untuk membantu siswa Kelas IX memahami pemodelan web secara praktis dan menyenangkan.
+                        </p>
+                    </div>
+                    <div class="profile-details">
+                        <p><strong><i class="fa-solid fa-user"></i> Nama Lengkap:</strong> <span>Rafidatul Aliya</span></p>
+                        <p><strong><i class="fa-solid fa-briefcase"></i> NPM:</strong> <span>241102031719</span></p>
+                        <p><strong><i class="fa-solid fa-book-open"></i> Program Studi:</strong> <span>Teknologi Pendidikan</span></p>
+                        <p><strong><i class="fa-solid fa-layer-group"></i> Mata Kuliah:</strong> <span>Pengembangan Web Pembelajaran</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TUJUAN PEMBELAJARAN -->
+            <section id="tujuan" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <h2>Tujuan Pembelajaran</h2>
+                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                    Setelah menyelesaikan materi pada modul media pembelajaran ini, siswa diharapkan mampu mencapai kompetensi berikut:
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="objective-item">
+                        <div class="objective-icon">1</div>
+                        <div>
+                            <h4 style="color: var(--primary-color);">Memahami Pengertian HTML</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">Peserta didik mampu menjelaskan konsep dasar dan struktur pemformatan dokumen HTML secara tepat.</p>
+                        </div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">2</div>
+                        <div>
+                            <h4 style="color: var(--primary-color);">Mengetahui Fungsi CSS</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">Peserta didik memahami peran CSS dalam memberikan gaya, warna, tata letak, dan keindahan halaman web.</p>
+                        </div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">3</div>
+                        <div>
+                            <h4 style="color: var(--primary-color);">Memahami Dasar JavaScript</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">Peserta didik mengenal konsep dasar logika pemrograman, variabel, dan event sederhana pada JavaScript.</p>
+                        </div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">4</div>
+                        <div>
+                            <h4 style="color: var(--primary-color);">Membuat Halaman Web Sederhana</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">Peserta didik mampu mempraktikkan penulisan kode HTML dasar untuk menyusun halaman web mandiri.</p>
+                        </div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-icon">5</div>
+                        <div>
+                            <h4 style="color: var(--primary-color);">Menggabungkan HTML, CSS, dan JavaScript</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">Peserta didik mampu memadukan elemen struktur, desain, dan respons interaktif dalam satu kesatuan web.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. MATERI HTML -->
+            <section id="html" class="content-section">
+                <div class="section-header">
+                    <i class="fa-brands fa-html5"></i>
+                    <h2>Materi Dasar HTML</h2>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">1. Pengertian & Fungsi HTML</h3>
+                    <p style="line-height: 1.6; color: var(--text-main);">
+                        <strong>HTML (HyperText Markup Language)</strong> adalah bahasa standar yang digunakan untuk membuat dan menyusun kerangka dasar sebuah halaman web. HTML ibarat <em>tulang belulang</em> pada tubuh manusia yang membentuk fondasi utama.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">2. Struktur Dasar HTML</h3>
+                    <p>Setiap dokumen HTML memiliki struktur baku sebagai berikut:</p>
+                    <div class="code-box">
+<span class="code-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="code-tag">&lt;html&gt;</span>
+<span class="code-tag">&lt;head&gt;</span>
+    <span class="code-tag">&lt;title&gt;</span>Judul Halaman Web<span class="code-tag">&lt;/title&gt;</span>
+<span class="code-tag">&lt;/head&gt;</span>
+<span class="code-tag">&lt;body&gt;</span>
+    <span class="code-tag">&lt;h1&gt;</span>Halo World!<span class="code-tag">&lt;/h1&gt;</span>
+    <span class="code-tag">&lt;p&gt;</span>Ini paragraf pertama saya.<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;/body&gt;</span>
+<span class="code-tag">&lt;/html&gt;</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">3. Elemen dan Tag Penting</h3>
+                    <ul class="explain-list">
+                        <li><strong>Heading (&lt;h1&gt; s/d &lt;h6&gt;):</strong> Digunakan untuk membuat judul atau sub-judul.</li>
+                        <li><strong>Paragraph (&lt;p&gt;):</strong> Digunakan untuk membungkus teks paragraf.</li>
+                        <li><strong>Image (&lt;img&gt;):</strong> Menampilkan gambar. Menggunakan atribut <code class="code-attr">src</code> dan <code class="code-attr">alt</code>.</li>
+                        <li><strong>Link (&lt;a&gt;):</strong> Membuat tautan ke halaman lain menggunakan atribut <code class="code-attr">href</code>.</li>
+                        <li><strong>List (&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;):</strong> Menampilkan daftar item berurutan atau tidak berurutan.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 5. MATERI CSS -->
+            <section id="css" class="content-section">
+                <div class="section-header">
+                    <i class="fa-brands fa-css3-alt"></i>
+                    <h2>Materi Dasar CSS</h2>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">1. Pengertian & Fungsi CSS</h3>
+                    <p style="line-height: 1.6;">
+                        <strong>CSS (Cascading Style Sheets)</strong> adalah bahasa yang digunakan untuk mengatur tampilan visual dan tata letak halaman web. Jika HTML adalah kerangka, maka CSS adalah <em>pakaian, warna, dan gaya</em>.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">2. Tiga Cara Penulisan CSS</h3>
+                    <ul class="explain-list">
+                        <li><strong>Inline CSS:</strong> Ditulis langsung di dalam elemen HTML (contoh: <code>style="color:red;"</code>).</li>
+                        <li><strong>Internal CSS:</strong> Ditulis di dalam tag <code>&lt;style&gt;</code> pada bagian <code>&lt;head&gt;</code>.</li>
+                        <li><strong>External CSS:</strong> Ditulis di file terpisah berekstensi <code>.css</code> dan dihubungkan via tag <code>&lt;link&gt;</code>.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">3. Properti Dasar CSS</h3>
+                    <div class="code-box">
+<span class="code-comm">/* Contoh Syntax Selector, Property & Value */</span>
+<span class="code-tag">body</span> {
+    <span class="code-attr">background-color</span>: <span class="code-val">#f8fafc</span>;
+    <span class="code-attr">color</span>: <span class="code-val">#1e3a8a</span>;
+    <span class="code-attr">font-family</span>: <span class="code-val">'Poppins', sans-serif</span>;
+}
+
+<span class="code-tag">.kotak</span> {
+    <span class="code-attr">margin</span>: <span class="code-val">20px</span>;       <span class="code-comm">/* Jarak Luar */</span>
+    <span class="code-attr">padding</span>: <span class="code-val">15px</span>;      <span class="code-comm">/* Jarak Dalam */</span>
+    <span class="code-attr">border</span>: <span class="code-val">2px solid #1e3a8a</span>; <span class="code-comm">/* Garis Tepi */</span>
+}
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. MATERI JAVASCRIPT -->
+            <section id="js" class="content-section">
+                <div class="section-header">
+                    <i class="fa-brands fa-js"></i>
+                    <h2>Materi Dasar JavaScript</h2>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">1. Pengertian & Fungsi JavaScript</h3>
+                    <p style="line-height: 1.6;">
+                        <strong>JavaScript (JS)</strong> adalah bahasa pemrograman yang memberikan kemampuan interaksi dinamis pada halaman web. Dengan JavaScript, web dapat merespons klik pengguna, melakukan kalkulasi, dan mengubah isi halaman secara konstan.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">2. Variabel & Tipe Data</h3>
+                    <p>Variabel digunakan untuk menyimpan data. Dideklarasikan dengan <code>let</code>, <code>const</code>, atau <code>var</code>.</p>
+                    <div class="code-box">
+<span class="code-tag">let</span> nama = <span class="code-val">"Muhammad Ikram"</span>; <span class="code-comm">// Tipe String</span>
+<span class="code-tag">const</span> umur = <span class="code-val">15</span>;               <span class="code-comm">// Tipe Number</span>
+<span class="code-tag">let</span> isSiswa = <span class="code-val">true</span>;             <span class="code-comm">// Tipe Boolean</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">3. Function & Event</h3>
+                    <p><strong>Function</strong> adalah blok kode untuk tugas tertentu, sedangkan <strong>Event</strong> adalah aksi dari pengguna (seperti klik tombol).</p>
+                    <div class="code-box">
+<span class="code-comm">// Deklarasi Function</span>
+<span class="code-tag">function</span> menyapa() {
+    <span class="code-tag">document</span>.getElementById(<span class="code-val">'pesan'</span>).innerText = <span class="code-val">"Halo, Selamat Belajar JavaScript!"</span>;
+}
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. CONTOH KODE -->
+            <section id="contoh" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-laptop-code"></i>
+                    <h2>Contoh Kode Penggabungan (Playground)</h2>
+                </div>
+
+                <p style="margin-bottom: 1rem; color: var(--text-muted);">
+                    Berikut adalah contoh penggabungan HTML, CSS, dan JavaScript secara langsung. Anda dapat mengubah teks di editor dan melihat hasilnya!
+                </p>
+
+                <div class="playground-container">
+                    <div class="editor-box">
+                        <div class="editor-header">
+                            <span><i class="fa-solid fa-code"></i> Live HTML & CSS Editor</span>
+                            <button class="btn btn-cyan" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="updatePlaygroundPreview()">
+                                <i class="fa-solid fa-play"></i> Jalankan Kode
+                            </button>
+                        </div>
+                        <textarea id="playgroundInput" class="editor-textarea" spellcheck="false">
+<div style="text-align: center; padding: 20px; font-family: sans-serif;">
+  <h2 style="color: #1e3a8a;">Halo Informatika IX!</h2>
+  <p style="color: #64748b;">Ini adalah hasil kompilasi gabungan HTML & CSS.</p>
+  <button style="background: #0284c7; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;" onclick="alert('Hebat! JavaScript Berhasil Dijalankan!')">
+    Klik Saya!
+  </button>
+</div>
+                        </textarea>
+                    </div>
+
+                    <div style="font-weight: 600; color: var(--primary-color);"><i class="fa-solid fa-eye"></i> Hasil Pratinjau (Preview Live):</div>
+                    <div id="playgroundPreview" class="preview-box"></div>
+                </div>
+            </section>
+
+            <!-- 8. LATIHAN SOAL -->
+            <section id="latihan" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <h2>Latihan Soal Pemahaman</h2>
+                </div>
+                
+                <div class="card">
+                    <div class="practice-question">
+                        <p><strong>1. Tag HTML manakah yang digunakan untuk membuat judul utama paling besar?</strong></p>
+                        <ul class="practice-options">
+                            <li>A. &lt;head&gt;</li>
+                            <li><strong>B. &lt;h1&gt; (Jawaban Benar)</strong></li>
+                            <li>C. &lt;heading&gt;</li>
+                            <li>D. &lt;title&gt;</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-question">
+                        <p><strong>2. Singkatan dari apakah CSS?</strong></p>
+                        <ul class="practice-options">
+                            <li><strong>A. Cascading Style Sheets (Jawaban Benar)</strong></li>
+                            <li>B. Computer Style System</li>
+                            <li>C. Creative Sheet Standard</li>
+                            <li>D. Colorful Style Solutions</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-question">
+                        <p><strong>3. Properti CSS apa yang digunakan untuk mengubah warna latar belakang sebuah elemen?</strong></p>
+                        <ul class="practice-options">
+                            <li>A. color</li>
+                            <li>B. font-color</li>
+                            <li><strong>C. background-color (Jawaban Benar)</strong></li>
+                            <li>D. bgcolor</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-question">
+                        <p><strong>4. Manakah kata kunci yang valid untuk mendeklarasikan variabel di JavaScript?</strong></p>
+                        <ul class="practice-options">
+                            <li>A. var</li>
+                            <li>B. let</li>
+                            <li>C. const</li>
+                            <li><strong>D. Semua jawaban benar (Jawaban Benar)</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-question" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                        <p><strong>5. Untuk menyambungkan file CSS eksternal ke file HTML, tag apa yang digunakan?</strong></p>
+                        <ul class="practice-options">
+                            <li><strong>A. &lt;link&gt; (Jawaban Benar)</strong></li>
+                            <li>B. &lt;script&gt;</li>
+                            <li>C. &lt;css&gt;</li>
+                            <li>D. &lt;style-src&gt;</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. EVALUASI KUIS INTERAKTIF -->
+            <section id="evaluasi" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-square-check"></i>
+                    <h2>Evaluasi Kuis Interaktif</h2>
+                </div>
+
+                <form id="quizForm" onsubmit="calculateQuizScore(event)">
+                    <!-- Soal 1 -->
+                    <div class="quiz-card">
+                        <div class="quiz-question">1. Elemen HTML mana yang difungsikan untuk membuat baris baru (line break)?</div>
+                        <div class="quiz-options">
+                            <label class="quiz-option"><input type="radio" name="q1" value="A"> A. &lt;break&gt;</label>
+                            <label class="quiz-option"><input type="radio" name="q1" value="B"> B. &lt;br&gt;</label>
+                            <label class="quiz-option"><input type="radio" name="q1" value="C"> C. &lt;lb&gt;</label>
+                            <label class="quiz-option"><input type="radio" name="q1" value="D"> D. &lt;newline&gt;</label>
+                        </div>
+                        <div id="fb-q1" class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Soal 2 -->
+                    <div class="quiz-card">
+                        <div class="quiz-question">2. Bagian CSS yang digunakan untuk mengatur jarak DI DALAM elemen dengan border dinamakan?</div>
+                        <div class="quiz-options">
+                            <label class="quiz-option"><input type="radio" name="q2" value="A"> A. Margin</label>
+                            <label class="quiz-option"><input type="radio" name="q2" value="B"> B. Spacing</label>
+                            <label class="quiz-option"><input type="radio" name="q2" value="C"> C. Padding</label>
+                            <label class="quiz-option"><input type="radio" name="q2" value="D"> D. Outline</label>
+                        </div>
+                        <div id="fb-q2" class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Soal 3 -->
+                    <div class="quiz-card">
+                        <div class="quiz-question">3. Kode JavaScript mana yang benar untuk menampilkan pesan di jendela peringatan?</div>
+                        <div class="quiz-options">
+                            <label class="quiz-option"><input type="radio" name="q3" value="A"> A. msgBox("Halo");</label>
+                            <label class="quiz-option"><input type="radio" name="q3" value="B"> B. alert("Halo");</label>
+                            <label class="quiz-option"><input type="radio" name="q3" value="C"> C. console.log("Halo");</label>
+                            <label class="quiz-option"><input type="radio" name="q3" value="D"> D. popup("Halo");</label>
+                        </div>
+                        <div id="fb-q3" class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Soal 4 -->
+                    <div class="quiz-card">
+                        <div class="quiz-question">4. Atribut gambar pada HTML yang berfungsi menampilkan teks cadangan ketika gambar gagal dimuat adalah?</div>
+                        <div class="quiz-options">
+                            <label class="quiz-option"><input type="radio" name="q4" value="A"> A. title</label>
+                            <label class="quiz-option"><input type="radio" name="q4" value="B"> B. src</label>
+                            <label class="quiz-option"><input type="radio" name="q4" value="C"> C. alt</label>
+                            <label class="quiz-option"><input type="radio" name="q4" value="D"> D. description</label>
+                        </div>
+                        <div id="fb-q4" class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Soal 5 -->
+                    <div class="quiz-card">
+                        <div class="quiz-question">5. Simbol apa yang digunakan untuk menargetkan elemen berdasarkan ID pada selector CSS?</div>
+                        <div class="quiz-options">
+                            <label class="quiz-option"><input type="radio" name="q5" value="A"> A. Titik ( . )</label>
+                            <label class="quiz-option"><input type="radio" name="q5" value="B"> B. Pagar ( # )</label>
+                            <label class="quiz-option"><input type="radio" name="q5" value="C"> C. Dan ( & )</label>
+                            <label class="quiz-option"><input type="radio" name="q5" value="D"> D. Bintang ( * )</label>
+                        </div>
+                        <div id="fb-q5" class="quiz-feedback"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-cyan" style="width: 100%; justify-content: center; font-size: 1.05rem;">
+                        <i class="fa-solid fa-paper-plane"></i> Periksa Jawaban Evaluasi
+                    </button>
+                </form>
+
+                <!-- Box Hasil Evaluasi -->
+                <div id="resultBox" class="result-box">
+                    <h3>Hasil Evaluasi Anda</h3>
+                    <div id="quizScore" class="result-score">0</div>
+                    <div id="quizMessage" class="result-message"></div>
+                    <button class="btn" onclick="resetQuiz()"><i class="fa-solid fa-rotate-right"></i> Coba Lagi</button>
+                </div>
+            </section>
+
+            <!-- 10. REFERENSI -->
+            <section id="referensi" class="content-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <h2>Referensi Pembelajaran</h2>
+                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                    Berikut rujukan dan sumber resmi yang dapat diakses untuk memperdalam pemahaman materi pengembangan web:
+                </p>
+
+                <a href="https://www.w3schools.com/" target="_blank" class="ref-link">
+                    <div>
+                        <div style="font-size: 1.1rem;">W3Schools Online Web Tutorials</div>
+                        <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">Platform dokumentasi dan tutorial web paling populer bagi pemula.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+
+                <a href="https://developer.mozilla.org/" target="_blank" class="ref-link">
+                    <div>
+                        <div style="font-size: 1.1rem;">MDN Web Docs (Mozilla Developer Network)</div>
+                        <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">Dokumentasi standar resmi dan paling lengkap untuk web developer.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+
+                <a href="https://html.com/" target="_blank" class="ref-link">
+                    <div>
+                        <div style="font-size: 1.1rem;">HTML.com - Learn HTML Code</div>
+                        <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">Panduan lengkap mengenal sintaks dan tag dasar HTML.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>Dikembangkan oleh <strong>Rafidatul Aliya</strong> • Tugas UTS Mata Kuliah Web Pembelajaran</p>
+        <p style="margin-top: 0.3rem; font-size: 0.8rem; color: #94a3b8;">&copy; 2026 Media Pembelajaran Informatika Kelas IX. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Tombol Kembali Ke Atas -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Kembali ke atas">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- ==================== JAVASCRIPT MURNI (VANILLA JS) ==================== -->
+    <script>
+        /* 1. KUNCI JAWABAN KUIS EVALUASI */
+        const correctAnswers = {
+            q1: 'B',
+            q2: 'C',
+            q3: 'B',
+            q4: 'C',
+            q5: 'B'
+        };
+
+        const answerExplanations = {
+            q1: "Jawaban Benar: B. Tag <br> digunakan untuk baris baru.",
+            q2: "Jawaban Benar: C. Padding adalah jarak antara konten dengan border (di dalam).",
+            q3: "Jawaban Benar: B. alert() berfungsi menampilkan kotak pesan peringatan.",
+            q4: "Jawaban Benar: C. Atribut alt memberikan teks alternatif jika gambar tidak dimuat.",
+            q5: "Jawaban Benar: B. Simbol pagar (#) menargetkan ID pada CSS."
+        };
+
+        /* 2. BERPINDAH TAB KONTEN (NAVIGASI MENU) */
+        function switchTab(sectionId, element) {
+            // Sembunyikan semua section
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // Tampilkan section yang dipilih
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update status menu aktif
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // Scroll halus ke atas konten
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Sembunyikan sidebar otomatis jika di layar kecil (Mobile)
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+
+        // Helper fungsi pindah tab dari tombol luar
+        function switchTabById(sectionId) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if (item.getAttribute('onclick').includes(`'${sectionId}'`)) {
+                    switchTab(sectionId, item);
+                }
+            });
+        }
+
+        /* 3. PLAYGROUND PREVIEW DYNAMIC CODE */
+        function updatePlaygroundPreview() {
+            const code = document.getElementById('playgroundInput').value;
+            const previewFrame = document.getElementById('playgroundPreview');
+            previewFrame.innerHTML = code;
+        }
+
+        /* 4. PERHITUNGAN SCORE EVALUASI KUIS */
+        function calculateQuizScore(e) {
+            e.preventDefault();
+            let score = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const qKey = 'q' + i;
+                const selectedOption = document.querySelector(`input[name="${qKey}"]:checked`);
+                const feedbackEl = document.getElementById(`fb-${qKey}`);
+
+                feedbackEl.style.display = 'block';
+
+                if (selectedOption) {
+                    if (selectedOption.value === correctAnswers[qKey]) {
+                        score += 20;
+                        feedbackEl.className = 'quiz-feedback feedback-correct';
+                        feedbackEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> Jawaban Anda Benar!';
+                    } else {
+                        feedbackEl.className = 'quiz-feedback feedback-wrong';
+                        feedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Jawaban Salah. ${answerExplanations[qKey]}`;
+                    }
+                } else {
+                    feedbackEl.className = 'quiz-feedback feedback-wrong';
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Anda Belum Menjawab. ${answerExplanations[qKey]}`;
+                }
+            }
+
+            // Tampilkan Hasil Akhir Kuis
+            const resultBox = document.getElementById('resultBox');
+            const quizScoreEl = document.getElementById('quizScore');
+            const quizMessageEl = document.getElementById('quizMessage');
+
+            quizScoreEl.innerText = score;
+            resultBox.style.display = 'block';
+
+            if (score === 100) {
+                quizMessageEl.innerText = "Luar biasa! Pertahankan prestasi Anda, Anda telah menguasai materi dengan sangat baik! 🎉";
+            } else if (score >= 60) {
+                quizMessageEl.innerText = "Bagus sekali! Anda sudah memahami sebagian besar materi dasar web. Tetap semangat berlatih! 👏";
+            } else {
+                quizMessageEl.innerText = "Jangan berkecil hati! Pelajari kembali materi HTML, CSS, dan JS lalu coba evaluasi lagi ya! 💪";
+            }
+
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizForm').reset();
+            const feedbacks = document.querySelectorAll('.quiz-feedback');
+            feedbacks.forEach(fb => fb.style.display = 'none');
+            document.getElementById('resultBox').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* 5. SIDEBAR TOGGLE UNTUK DEVICE MOBILE */
+        document.getElementById('toggleSidebar').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        /* 6. TOMBOL BACK TO TOP */
+        window.onscroll = function () {
+            const btn = document.getElementById('backToTop');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* 7. INITIALIZE DEFAULT STATE */
+        window.onload = function() {
+            updatePlaygroundPreview();
+        };
+    </script>
+</body>
+</html>
